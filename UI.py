@@ -64,6 +64,9 @@ class IntroGenerator(QtWidgets.QMainWindow):
         self.setWindowTitle("ADOFAI Intro Generator")
         self.setWindowIcon(QtGui.QIcon('./assets/images/icon.png'))
 
+        self.font = QtGui.QFont(QtGui.QFontDatabase.applicationFontFamilies(QtGui.QFontDatabase.addApplicationFont('./assets/ttf/FZMWFont.ttf'))[0], 12)
+        self.setFont(self.font)
+
         # 固定窗口大小并隐藏最大化按钮
         self.setFixedSize(800, 600)
         self.setWindowFlags(
@@ -83,66 +86,105 @@ class IntroGenerator(QtWidgets.QMainWindow):
 
         # 标题参数组
         title_group = QtWidgets.QGroupBox("标题参数")
+        title_group.setFont(self.font)
         title_layout = QtWidgets.QFormLayout()
 
         self.tag_input = QtWidgets.QLineEdit()
+        self.tag_input.setFont(self.font)
         self.tag_input.setPlaceholderText("例如：完美无瑕")
-        title_layout.addRow(QtWidgets.QLabel("<b>标签</b>\n"), self.tag_input)
+        self.tag_label = QtWidgets.QLabel("<p>标签</p>\n")
+        self.tag_label.setFont(self.font)
+        title_layout.addRow(self.tag_label, self.tag_input)
 
         self.name_input = QtWidgets.QLineEdit()
+        self.name_input.setFont(self.font)
         self.name_input.setPlaceholderText("例如：Plum-MEGAMIX2")
-        title_layout.addRow(QtWidgets.QLabel("<b>谱子名字</b>\n<font color='#FF0000'>* 必填</font>"), self.name_input)
+        self.name_label = QtWidgets.QLabel("<p>谱子名字<font color='#FF0000'> * 必填</font></p>\n")
+        self.name_label.setFont(self.font)
+        title_layout.addRow(self.name_label, self.name_input)
 
         self.judgment_input = QtWidgets.QLineEdit()
+        self.judgment_input.setFont(self.font)
         self.judgment_input.setPlaceholderText("例如：严判")
-        title_layout.addRow(QtWidgets.QLabel("<b>判定</b>\n"), self.judgment_input)
+        self.judgment_label = QtWidgets.QLabel("<p>判定</p>\n")
+        self.judgment_label.setFont(self.font)
+        title_layout.addRow(self.judgment_label, self.judgment_input)
 
         title_group.setLayout(title_layout)
         layout.addWidget(title_group)
 
         # 简介参数组
         intro_group = QtWidgets.QGroupBox("简介内容")
+        intro_group.setFont(self.font)
         intro_layout = QtWidgets.QFormLayout()
 
         self.line_input = QtWidgets.QLineEdit()
+        self.line_input.setFont(self.font)
         self.line_input.setPlaceholderText("例如：--------------------")
-        intro_layout.addRow(QtWidgets.QLabel("<b>分隔符</b>\n<font color='#FF0000'>* 必填</font>"), self.line_input)
+        self.line_label = QtWidgets.QLabel("<p>分隔符<font color='#FF0000'> * 必填</font></p>\n")
+        self.line_label.setFont(self.font)
+        intro_layout.addRow(self.line_label, self.line_input)
 
         self.text_input = QtWidgets.QLineEdit()
+        self.text_input.setFont(self.font)
         self.text_input.setPlaceholderText("写一些你想说的话")
-        intro_layout.addRow(QtWidgets.QLabel("<b>文本</b>\n"), self.text_input)
+        self.text_label = QtWidgets.QLabel("<p>文本</p>\n")
+        self.text_label.setFont(self.font)
+        intro_layout.addRow(self.text_label, self.text_input)
 
         self.artist_input = QtWidgets.QLineEdit()
+        self.artist_input.setFont(self.font)
         self.artist_input.setPlaceholderText("例如：Plum")
-        intro_layout.addRow(QtWidgets.QLabel("<b>曲师</b>\n"), self.artist_input)
+        self.artist_label = QtWidgets.QLabel("<p>曲师</p>\n")
+        self.artist_label.setFont(self.font)
+        intro_layout.addRow(self.artist_label, self.artist_input)
 
         self.suru_input = QtWidgets.QLineEdit()
+        self.suru_input.setFont(self.font)
         self.suru_input.setPlaceholderText("例如：Irin")
-        intro_layout.addRow(QtWidgets.QLabel("<b>谱师</b>\n"), self.suru_input)
+        self.suru_label = QtWidgets.QLabel("<p>谱师</p>\n")
+        self.suru_label.setFont(self.font)
+        intro_layout.addRow(self.suru_label, self.suru_input)
 
         self.xacc_input = QtWidgets.QLineEdit()
+        self.xacc_input.setFont(self.font)
         self.xacc_input.setPlaceholderText("你的准度")
-        intro_layout.addRow(QtWidgets.QLabel("<b>X-Acc</b>\n"), self.xacc_input)
+        self.xacc_label = QtWidgets.QLabel("<p>X-Acc</p>\n")
+        self.xacc_label.setFont(self.font)
+        intro_layout.addRow(self.xacc_label, self.xacc_input)
 
         self.difficulty_input = QtWidgets.QLineEdit()
+        self.difficulty_input.setFont(self.font)
         self.difficulty_input.setPlaceholderText("谱面评级")
-        intro_layout.addRow(QtWidgets.QLabel("<b>难度</b>\n"), self.difficulty_input)
+        self.difficulty_label = QtWidgets.QLabel("<p>难度</p>\n")
+        self.difficulty_label.setFont(self.font)
+        intro_layout.addRow(self.difficulty_label, self.difficulty_input)
 
         self.pp_input = QtWidgets.QLineEdit()
+        self.pp_input.setFont(self.font)
         self.pp_input.setPlaceholderText("你的PP分（一般没人去算）")
-        intro_layout.addRow(QtWidgets.QLabel("<b>PP值</b>\n"), self.pp_input)
+        self.pp_label = QtWidgets.QLabel("<p>PP值</p>\n")
+        self.pp_label.setFont(self.font)
+        intro_layout.addRow(self.pp_label, self.pp_input)
 
         self.keyboard_input = QtWidgets.QLineEdit()
-        intro_layout.addRow(QtWidgets.QLabel("<b>键盘型号</b>\n"), self.keyboard_input)
+        self.keyboard_input.setFont(self.font)
+        self.keyboard_label = QtWidgets.QLabel("<p>键盘型号</p>\n")
+        self.keyboard_label.setFont(self.font)
+        intro_layout.addRow(self.keyboard_label, self.keyboard_input)
 
         self.link_input = QtWidgets.QLineEdit()
-        intro_layout.addRow(QtWidgets.QLabel("<b>下载链接</b>\n"), self.link_input)
+        self.link_input.setFont(self.font)
+        self.link_label = QtWidgets.QLabel("<p>下载链接</p>\n")
+        self.link_label.setFont(self.font)
+        intro_layout.addRow(self.link_label, self.link_input)
 
         intro_group.setLayout(intro_layout)
         layout.addWidget(intro_group)
 
         # 生成按钮
         generate_button = QtWidgets.QPushButton("生成并保存")
+        generate_button.setFont(self.font)
         generate_button.setStyleSheet(
             "border: 2px solid #87CEEB;"
             "background-color: qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 #4CAF50,stop:1 #8bc6ff);"
@@ -152,6 +194,7 @@ class IntroGenerator(QtWidgets.QMainWindow):
         layout.addWidget(generate_button, alignment=QtCore.Qt.AlignRight)
 
         self.preview = QtWidgets.QTextEdit()
+        self.preview.setFont(self.font)
         self.preview.setReadOnly(True)
         self.preview.setPlaceholderText("点击上方按钮查看结果")
         self.preview.setStyleSheet("border:1px solid #D0D0D0; background:#F5F5F5;")
