@@ -57,7 +57,7 @@ def generate_intro(**kwargs):
         result += '评级：' + difficulty + '\n'
     if pp_val:
         result += f"PP值：{pp_val}\n\n{line}\n\n"
-        result += f'\n{line}\n\n'
+    result += f'\n{line}\n\n'
     if keyboard:
         result += "键盘：" + keyboard + "\n"
     if link:
