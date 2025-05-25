@@ -11,7 +11,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import Qt
 import win32gui
 import win32con
-import re
+from adobase.level import ADOFAILevel
 
 if sys.argv[-1] != 'debug':
     # 获取当前控制台窗口的句柄
@@ -57,7 +57,8 @@ def generate_intro(**kwargs):
         result += '评级：' + difficulty + '\n'
     if pp_val:
         result += f"PP值：{pp_val}\n\n{line}\n\n"
-    result += f'\n{line}\n\n'
+    if keyboard | link:
+        result += f'\n{line}\n\n'
     if keyboard:
         result += "键盘：" + keyboard + "\n"
     if link:
@@ -79,7 +80,7 @@ class IntroGenerator(QtWidgets.QMainWindow):
             QtGui.QFontDatabase.addApplicationFont('./assets/ttf/FZMWFont.ttf'))[0], 12)
         self.setFont(self.font)
 
-        # 固定窗口大小=3ire0=923日-304人0-9如i-ri-ir-ir-09ir09-irri-i-ri-ir-ir-09234r-r-iri-r-ir-ir-ir-iriri--i并隐藏最大化按钮
+        # 固定窗口大小并隐藏最大化按钮
         self.setFixedSize(800, 600)
         self.setWindowFlags(
             Qt.WindowMinimizeButtonHint |
@@ -100,18 +101,12 @@ class IntroGenerator(QtWidgets.QMainWindow):
         dialog.setWindowTitle('选择谱面文件')
         dialog.setNameFilter('*.adofai')
         filePath, fileType = dialog.getOpenFileName()
+        level = ADOFAILevel.load(filePath)
 
-        with open(filePath, 'r') as f:
-            data = f.read()
-            name = data[data.find('"song": "') + 9 : data.find('\n', data.find('"song": "')) - 3]
-            artist = data[data.find('"artist": "') + 11: data.find('\n', data.find('"artist": "')) - 3]
-            suru = data[data.find('"author": "') + 11: data.find('\n', data.find('"author": "')) - 3]
-            desc = data[data.find('"levelDesc": "') + 14: data.find('\n', data.find('"levelDesc": "')) - 3]
-
-            name = re.sub('<color=.*?>|</color>|<size=.*?>|</size>|<b>|</b>', '', name).replace('\\"', '\"')
-            artist = re.sub('<color=.*?>|</color>|<size=.*?>|</size>|<b>|</b>', '', artist).replace('\\"', '\"')
-            suru = re.sub('<color=.*?>|</color>|<size=.*?>|</size>|<b>|</b>', '', suru).replace('\\"', '\"')
-            desc = re.sub('<color=.*?>|</color>|<size=.*?>|</size>|<b>|</b>', '', desc).replace('\\"', '\"')
+        settings = level.data.get('settings', {})
+        name = settings.get('song')
+        artist = settings.get('artist')
+        suru = settings.get('author')
 
         # 标题参数组
         title_group = QtWidgets.QGroupBox("标题参数")
@@ -123,7 +118,7 @@ class IntroGenerator(QtWidgets.QMainWindow):
                 data = f.read()
                 self.line = json.loads(data)['line']
                 self.keyboard = json.loads(data)['keyboard']
-        except FileNotFoundError:
+        except:
             self.line = ''
             self.keyboard = ''
 
@@ -168,7 +163,6 @@ class IntroGenerator(QtWidgets.QMainWindow):
         self.text_input = QtWidgets.QLineEdit()
         self.text_input.setFont(self.font)
         self.text_input.setPlaceholderText("写一些你想说的话")
-        self.text_input.setText(desc)
         self.text_label = QtWidgets.QLabel("<p>文本</p>\n")
         self.text_label.setFont(self.font)
         intro_layout.addRow(self.text_label, self.text_input)
