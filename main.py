@@ -98,9 +98,7 @@ class IntroGenerator(QtWidgets.QMainWindow):
         central_widget.setLayout(self.layout)
 
         dialog = QtWidgets.QFileDialog(self)
-        dialog.setWindowTitle('选择谱面文件')
-        dialog.setNameFilter('*.adofai')
-        filePath, fileType = dialog.getOpenFileName()
+        filePath, fileType = dialog.getOpenFileName(self, '选择谱面文件', '', '谱面文件 (*.adofai)')
         level = ADOFAILevel.load(filePath)
 
         settings = level.data.get('settings', {})
@@ -139,8 +137,8 @@ class IntroGenerator(QtWidgets.QMainWindow):
 
         self.judgment_input = QtWidgets.QLineEdit()
         self.judgment_input.setFont(self.font)
-        self.judgment_input.setPlaceholderText("例如：严判")
-        self.judgment_label = QtWidgets.QLabel("<p>判定</p>\n")
+        self.judgment_input.setPlaceholderText("例如：击破")
+        self.judgment_label = QtWidgets.QLabel("<p>通关方式</p>\n")
         self.judgment_label.setFont(self.font)
         title_layout.addRow(self.judgment_label, self.judgment_input)
 
